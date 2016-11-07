@@ -66,45 +66,46 @@ class AQI(object):
         except RequestException:
             raise NetworkException
 
-    def __get(self, city, avg, stations, interface):
-        self.interface = interface
-        self.params = {'city': city, 'avg': avg, 'stations': stations}
-        return self.__base_get(self.params)
+    # def __get(self, city, avg, stations, interface):
+    #     self.interface = interface
+    #     self.params = {'city': city, 'avg': avg, 'stations': stations}
+    #     return self.__base_get(self.params)
 
+    def __get(self, **p):
+        self.interface = p.get('interface')
+        self.params = p
+        return self.__base_get(self.params)
 
     def get_pm25(self, city, avg='true', stations='yes'):
-        self.__get(city, avg, stations, '/pm2_5')
+        self.__get(city=city, avg=avg, stations=stations, interface='/pm2_5')
 
     def get_pm10(self, city, avg='true', stations='yes'):
-        self.__get(city, avg, stations, '/pm10')
+        self.__get(city=city, avg=avg, stations=stations, interface='/pm10')
 
     def get_co(self, city, avg='true', stations='yes'):
-        self.__get(city, avg, stations, '/co')
+        self.__get(city=city, avg=avg, stations=stations, interface='/co')
 
     def get_no2(self, city, avg='true', stations='yes'):
-        self.__get(city, avg, stations, '/no2')
+        self.__get(city=city, avg=avg, stations=stations, interface='/no2')
 
     def get_so2(self, city, avg='true', stations='yes'):
-        self.__get(city, avg, stations, '/so2')
+        self.__get(city=city, avg=avg, stations=stations, interface='/so2')
 
     def get_o3(self, city, avg='true', stations='yes'):
-        self.__get(city, avg, stations, '/o3')
+        self.__get(city=city, avg=avg, stations=stations, interface='/o3')
 
     def get_aqi_details(self, city, avg='true', stations='yes'):
-        self.__get(city, avg, stations, '/aqi_details')
+        self.__get(city=city, avg=avg, stations=stations, interface='/aqi_details')
 
     def get_only_aqi(self, city, avg='true', stations='yes'):
-        self.__get(city, avg, stations, '/only_aqi')
+        self.__get(city=city, avg=avg, stations=stations, interface='/only_aqi')
 
     def get_aqis_by_station(self, station_code):
-        self.interface = '/aqis_by_station'
-        self.params = {'station_code': station_code}
-        return self.__base_get(self.params)
+        self.__get(station_code=station_code, interface='/aqis_by_station')
 
     def get_station_names(self, city):
         self.interface = '/station_names'
-        self.params = {'city': city}
-        return self.__base_get(self.params)
+        self.__get(city=city, interface='/station_names')
 
     def get_cities(self):
         self.interface = ''
