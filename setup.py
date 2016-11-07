@@ -9,13 +9,13 @@ install_requires = [
 setup(
   name = 'aqizh',
   packages = ['aqizh'],
-  version = '0.1',
+  version = '0.2',
   description = 'Python API for AQI in China',
   author = 'Chuan Jin',
   author_email = 'chuan.jin.813@gmail.com',
   install_requires=install_requires,
   url = 'https://github.com/chuanjin/python-aqi-zh',
-  download_url = 'https://github.com/chuanjin/python-aqi-zh/archive/0.1',
+  download_url = 'https://github.com/chuanjin/python-aqi-zh/releases',
   keywords = ['AQI', 'China', 'python'],
   classifiers = [
         'Development Status :: 4 - Beta',
