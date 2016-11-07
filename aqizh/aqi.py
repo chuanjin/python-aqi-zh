@@ -35,33 +35,30 @@ class AQI(object):
             city = p.get('city')
             self.validate_compulsory(city, station_code)
             avg = p.get('avg')
-            self.validate_avg(avg)
+            self.validate_params(avg, ['true', 'false'])
             stations = p.get('stations')
-            self.validate_stations(stations)
+            self.validate_params(stations, ['yes', 'no'])
             self._params.update(p)
 
     def validate_compulsory(self, city, station_code):
-        if not station_code and not city:
+        if city:
+            self.validate_type(city)
+        elif station_code:
+            self.validate_type(station_code)
+        else:
             raise Exception("argument can not be empty")
-        if city and not isinstance(city, str):
+
+    def validate_type(self, p):
+        if not isinstance(p, str):
             raise Exception("argument can only be string")
-        if station_code and not isinstance(station_code, str):
-            raise Exception("argument can only be string")
 
+    def validate_params(self, p, l):
+        if p:
+            p_str = '%s' % p
+            if p_str.lower() not in l:
+                raise Exception("Parameter %s is invalid! It can only be %s or %s" % (p, l[0], l[1]))
 
-    def validate_avg(self, avg):
-        if avg :
-            avg_s = '%s' % avg
-            if avg_s.lower() not in ['true', 'false']:
-                raise Exception("avg can only be true or false")
-
-    def validate_stations(self, stations):
-        if stations:
-            stations_s = '%s' % stations
-            if stations_s.lower() not in ['yes', 'no']:
-                raise Exception("avg can only be yes or no")
-
-    def __get(self, params):
+    def __base_get(self, params):
         url = self._base_url % self.interface
         try:
             r = requests.get(url, params=params)
@@ -69,67 +66,57 @@ class AQI(object):
         except RequestException:
             raise NetworkException
 
-    def get_pm25(self, city, avg='true', stations='yes'):
-        self.interface = '/pm2_5'
+    def __get(self, city, avg, stations, interface):
+        self.interface = interface
         self.params = {'city': city, 'avg': avg, 'stations': stations}
-        return self.__get(self.params)
+        return self.__base_get(self.params)
+
+
+    def get_pm25(self, city, avg='true', stations='yes'):
+        self.__get(city, avg, stations, '/pm2_5')
 
     def get_pm10(self, city, avg='true', stations='yes'):
-        self.interface = '/pm10'
-        self.params = {'city': city, 'avg': avg, 'stations': stations}
-        return self.__get(self.params)
+        self.__get(city, avg, stations, '/pm10')
 
     def get_co(self, city, avg='true', stations='yes'):
-        self.interface = '/co'
-        self.params = {'city': city, 'avg': avg, 'stations': stations}
-        return self.__get(self.params)
+        self.__get(city, avg, stations, '/co')
 
     def get_no2(self, city, avg='true', stations='yes'):
-        self.interface = '/no2'
-        self.params = {'city': city, 'avg': avg, 'stations': stations}
-        return self.__get(self.params)
+        self.__get(city, avg, stations, '/no2')
 
     def get_so2(self, city, avg='true', stations='yes'):
-        self.interface = '/so2'
-        self.params = {'city': city, 'avg': avg, 'stations': stations}
-        return self.__get(self.params)
+        self.__get(city, avg, stations, '/so2')
 
     def get_o3(self, city, avg='true', stations='yes'):
-        self.interface = '/o3'
-        self.params = {'city': city, 'avg': avg, 'stations': stations}
-        return self.__get(self.params)
+        self.__get(city, avg, stations, '/o3')
 
     def get_aqi_details(self, city, avg='true', stations='yes'):
-        self.interface = '/aqi_details'
-        self.params = {'city': city, 'avg': avg, 'stations': stations}
-        return self.__get(self.params)
+        self.__get(city, avg, stations, '/aqi_details')
 
     def get_only_aqi(self, city, avg='true', stations='yes'):
-        self.interface = '/only_aqi'
-        self.params = {'city': city, 'avg': avg, 'stations': stations}
-        return self.__get(self.params)
+        self.__get(city, avg, stations, '/only_aqi')
 
     def get_aqis_by_station(self, station_code):
         self.interface = '/aqis_by_station'
         self.params = {'station_code': station_code}
-        return self.__get(self.params)
+        return self.__base_get(self.params)
 
     def get_station_names(self, city):
         self.interface = '/station_names'
         self.params = {'city': city}
-        return self.__get(self.params)
+        return self.__base_get(self.params)
 
     def get_cities(self):
         self.interface = ''
         self.params = None
-        return self.__get(self.params)
+        return self.__base_get(self.params)
 
     def get_all_cities(self):
         self.interface = '/all_cities'
         self.params = None
-        return self.__get(self.params)
+        return self.__base_get(self.params)
 
     def get_aqi_ranking(self):
         self.interface = '/aqi_ranking'
         self.params = None
-        return self.__get(self.params)
+        return self.__base_get(self.params)
