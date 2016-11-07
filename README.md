@@ -1,6 +1,8 @@
 Python-AQI-ZN
 =================
 [![PyPI version](https://badge.fury.io/py/aqizh.svg)](https://badge.fury.io/py/aqizh)
+[![Build Status](https://travis-ci.org/chuanjin/python-aqi-zh.svg?branch=master)](https://travis-ci.org/chuanjin/python-aqi-zh)
+[![Code Climate](https://codeclimate.com/github/chuanjin/python-aqi-zh/badges/gpa.svg)](https://codeclimate.com/github/chuanjin/python-aqi-zh)
 [![Dependency Status](https://gemnasium.com/badges/github.com/chuanjin/python-aqi-zh.svg)](https://gemnasium.com/github.com/chuanjin/python-aqi-zh)
 
 Python API for getting real time AQI of Chinese cities. Data from 

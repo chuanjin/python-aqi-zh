@@ -8,4 +8,6 @@ python:
 # command to install dependencies
 install: "pip install -r requirements.txt"
 # command to run tests
-script: python -m unittest tests.aqi_test 
+script: coverage run -m tests.aqi_test
+# Coverage to https://coveralls.io/
+after_success: coveralls
