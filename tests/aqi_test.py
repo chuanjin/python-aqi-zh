@@ -28,11 +28,23 @@ class TestAQI(unittest.TestCase):
 
     def test_pm25_wrong_avg(self):
         with self.assertRaises(Exception):
-            self.aqi.get_pm25('Beijing', True)
+            self.aqi.get_pm25('Beijing', 'x')
+
+    def test_pm25_wrong_avg_type(self):
+        with self.assertRaises(Exception):
+            self.aqi.get_pm25('Beijing', 123)
 
     def test_pm25_wrong_stations(self):
         with self.assertRaises(Exception):
             self.aqi.get_pm25('Beijing', "true", 'a')
+
+    def test_pm25_wrong_stations_type(self):
+        with self.assertRaises(Exception):
+            self.aqi.get_pm25('Beijing', "true", 123)
+
+    def test_pm25_wrong_city_type(self):
+        with self.assertRaises(Exception):
+            self.aqi.get_pm25(123)
 
     @all_requests
     def pm25_response_content(self, url, request):
@@ -62,18 +74,6 @@ class TestAQI(unittest.TestCase):
                 self.aqi.get_pm25('Beijing')
 
     # test for get_pm10()
-    def test_pm10_city_empty(self):
-        with self.assertRaises(Exception):
-            self.aqi.get_pm10('')
-
-    def test_pm10_wrong_avg(self):
-        with self.assertRaises(Exception):
-            self.aqi.get_pm10('Beijing', True)
-
-    def test_pm10_wrong_stations(self):
-        with self.assertRaises(Exception):
-            self.aqi.get_pm10('Beijing', "true", 'a')
-
     @all_requests
     def pm10_response_content(self, url, request):
         self.assertEqual(url.path, self.path % '/pm10')
@@ -93,18 +93,6 @@ class TestAQI(unittest.TestCase):
             self.aqi.get_pm10('Beijing', 'false', 'no')
 
     # test for get_co()
-    def test_co_city_empty(self):
-        with self.assertRaises(Exception):
-            self.aqi.get_co('')
-
-    def test_co_wrong_avg(self):
-        with self.assertRaises(Exception):
-            self.aqi.get_co('Beijing', True)
-
-    def test_co_wrong_stations(self):
-        with self.assertRaises(Exception):
-            self.aqi.get_co('Beijing', "true", 'a')
-
     @all_requests
     def co_response_content(self, url, request):
         self.assertEqual(url.path, self.path % '/co')
@@ -124,18 +112,6 @@ class TestAQI(unittest.TestCase):
             self.aqi.get_co('Beijing', 'false', 'no')
 
     # test for get_no2()
-    def test_no2_city_empty(self):
-        with self.assertRaises(Exception):
-            self.aqi.get_no2('')
-
-    def test_no2_wrong_avg(self):
-        with self.assertRaises(Exception):
-            self.aqi.get_no2('Beijing', True)
-
-    def test_no2_wrong_stations(self):
-        with self.assertRaises(Exception):
-            self.aqi.get_no2('Beijing', "true", 'a')
-
     @all_requests
     def no2_response_content(self, url, request):
         self.assertEqual(url.path, self.path % '/no2')
@@ -155,18 +131,6 @@ class TestAQI(unittest.TestCase):
             self.aqi.get_no2('Beijing', 'false', 'no')
 
     # test for get_so2()
-    def test_so2_city_empty(self):
-        with self.assertRaises(Exception):
-            self.aqi.get_so2('')
-
-    def test_so2_wrong_avg(self):
-        with self.assertRaises(Exception):
-            self.aqi.get_so2('Beijing', True)
-
-    def test_so2_wrong_stations(self):
-        with self.assertRaises(Exception):
-            self.aqi.get_so2('Beijing', "true", 'a')
-
     @all_requests
     def so2_response_content(self, url, request):
         self.assertEqual(url.path, self.path % '/so2')
@@ -186,18 +150,6 @@ class TestAQI(unittest.TestCase):
             self.aqi.get_so2('Beijing', 'false', 'no')
 
     # test for get_o3()
-    def test_o3_city_empty(self):
-        with self.assertRaises(Exception):
-            self.aqi.get_o3('')
-
-    def test_o3_wrong_avg(self):
-        with self.assertRaises(Exception):
-            self.aqi.get_o3('Beijing', True)
-
-    def test_o3_wrong_stations(self):
-        with self.assertRaises(Exception):
-            self.aqi.get_o3('Beijing', "true", 'a')
-
     @all_requests
     def o3_response_content(self, url, request):
         self.assertEqual(url.path, self.path % '/o3')
@@ -217,18 +169,6 @@ class TestAQI(unittest.TestCase):
             self.aqi.get_o3('Beijing', 'false', 'no')
 
     # test for get_aqi_details()
-    def test_aqi_details_city_empty(self):
-        with self.assertRaises(Exception):
-            self.aqi.get_aqi_details('')
-
-    def test_aqi_details_wrong_avg(self):
-        with self.assertRaises(Exception):
-            self.aqi.get_aqi_details('Beijing', True)
-
-    def test_aqi_details_wrong_stations(self):
-        with self.assertRaises(Exception):
-            self.aqi.get_aqi_details('Beijing', "true", 'a')
-
     @all_requests
     def aqi_details_response_content(self, url, request):
         self.assertEqual(url.path, self.path % '/aqi_details')
@@ -248,18 +188,6 @@ class TestAQI(unittest.TestCase):
             self.aqi.get_aqi_details('Beijing', 'false', 'no')
 
     # test for get_only_aqi()
-    def test_only_aqi_city_empty(self):
-        with self.assertRaises(Exception):
-            self.aqi.get_only_aqi('')
-
-    def test_only_aqi_wrong_avg(self):
-        with self.assertRaises(Exception):
-            self.aqi.get_only_aqi('Beijing', True)
-
-    def test_only_aqi_wrong_stations(self):
-        with self.assertRaises(Exception):
-            self.aqi.get_only_aqi('Beijing', "true", 'a')
-
     @all_requests
     def only_aqi_response_content(self, url, request):
         self.assertEqual(url.path, self.path % '/only_aqi')
@@ -282,6 +210,10 @@ class TestAQI(unittest.TestCase):
     def test_aqis_by_station_empty(self):
         with self.assertRaises(Exception):
             self.aqi.get_aqis_by_station('')
+
+    def test_aqis_by_station_type(self):
+        with self.assertRaises(Exception):
+            self.aqi.get_aqis_by_station(123)
 
     @all_requests
     def aqis_by_station_response_content(self, url, request):

@@ -33,15 +33,33 @@ class AQI(object):
         if p:
             station_code = p.get('station_code')
             city = p.get('city')
-            if not station_code and not city:
-                raise Exception("argument can not be empty")
+            self.validate_compulsory(city, station_code)
             avg = p.get('avg')
-            if avg and avg not in ['true', 'false']:
-                raise Exception("avg can only be string true or false")
+            self.validate_avg(avg)
             stations = p.get('stations')
-            if stations and stations not in ['yes', 'no']:
-                raise Exception("avg can only be string yes or no")
+            self.validate_stations(stations)
             self._params.update(p)
+
+    def validate_compulsory(self, city, station_code):
+        if not station_code and not city:
+            raise Exception("argument can not be empty")
+        if city and not isinstance(city, str):
+            raise Exception("argument can only be string")
+        if station_code and not isinstance(station_code, str):
+            raise Exception("argument can only be string")
+
+
+    def validate_avg(self, avg):
+        if avg :
+            avg_s = '%s' % avg
+            if avg_s.lower() not in ['true', 'false']:
+                raise Exception("avg can only be true or false")
+
+    def validate_stations(self, stations):
+        if stations:
+            stations_s = '%s' % stations
+            if stations_s.lower() not in ['yes', 'no']:
+                raise Exception("avg can only be yes or no")
 
     def __get(self, params):
         url = self._base_url % self.interface
