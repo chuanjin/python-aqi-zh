@@ -1,0 +1,8 @@
+engines:
+  # ... CONFIG CONTENT ...
+  duplication:
+    enabled: true
+    # ... CONFIG CONTENT ...
+    exclude_fingerprints:
+    - dc3acd09c95bb69492ebc13c2ff3aeae
+
