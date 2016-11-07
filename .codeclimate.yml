@@ -1,8 +1,28 @@
+---
 engines:
-  # ... CONFIG CONTENT ...
   duplication:
     enabled: true
-    # ... CONFIG CONTENT ...
+    config:
+      languages:
+      - ruby
+      - javascript
+      - python
+      - php
     exclude_fingerprints:
     - dc3acd09c95bb69492ebc13c2ff3aeae
+  fixme:
+    enabled: true
+  radon:
+    enabled: true
+ratings:
+  paths:
+  - "**.inc"
+  - "**.js"
+  - "**.jsx"
+  - "**.module"
+  - "**.php"
+  - "**.py"
+  - "**.rb"
+exclude_paths:
+- tests/
 
