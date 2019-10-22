@@ -3,7 +3,7 @@ from distutils.core import setup
 
 install_requires = [
     'httmock==1.2.5',
-    'requests==2.11.1'
+    'requests==2.20.0'
 ]
 
 setup(
