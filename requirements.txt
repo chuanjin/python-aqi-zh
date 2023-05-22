@@ -1,5 +1,5 @@
 httmock==1.2.5
-requests==2.20.0
+requests==2.31.0
 tox==2.4.1
 coveralls==1.1
 
